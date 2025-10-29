@@ -195,6 +195,24 @@ export default function ContactPage() {
             </div>
           </motion.div>
 
+          {/* Netlify Forms検出用の静的フォーム（非表示） */}
+          <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+            <input type="hidden" name="form-name" value="contact" />
+            <input type="text" name="会社名" />
+            <input type="text" name="お名前" />
+            <input type="email" name="メールアドレス" />
+            <input type="tel" name="電話番号" />
+            <input type="radio" name="お問い合わせ種別" />
+            <input type="text" name="件名" />
+            <textarea name="お問い合わせ内容"></textarea>
+            <div style={{ display: 'none' }}>
+              <label>
+                このフィールドは空のままでお願いします:
+                <input name="bot-field" />
+              </label>
+            </div>
+          </form>
+
           {/* フォームセクション */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
