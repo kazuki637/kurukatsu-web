@@ -1,76 +1,7 @@
-'use client'
-
 import Link from 'next/link'
 import { Mail, Building2, MessageSquare } from 'lucide-react'
-import { FormEvent } from 'react'
 
 export default function ContactPage() {
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    
-    const form = e.currentTarget
-    
-    // URLSearchParamsを手動で構築（form-nameを明示的に追加）
-    const params = new URLSearchParams()
-    
-    // form-nameを最初に追加（必須）
-    params.append('form-name', 'contact')
-    
-    // 会社名
-    const companyName = form.querySelector<HTMLInputElement>('input[name="会社名"]')?.value
-    if (companyName) params.append('会社名', companyName)
-    
-    // お名前
-    const name = form.querySelector<HTMLInputElement>('input[name="お名前"]')?.value
-    if (name) params.append('お名前', name)
-    
-    // 電話番号
-    const phone = form.querySelector<HTMLInputElement>('input[name="電話番号"]')?.value
-    if (phone) params.append('電話番号', phone)
-    
-    // メールアドレス
-    const email = form.querySelector<HTMLInputElement>('input[name="メールアドレス"]')?.value
-    if (email) params.append('メールアドレス', email)
-    
-    // お問い合わせ種別（選択されたラジオボタンの値）
-    const inquiryType = form.querySelector<HTMLInputElement>('input[name="お問い合わせ種別"]:checked')?.value
-    if (inquiryType) params.append('お問い合わせ種別', inquiryType)
-    
-    // 件名
-    const subject = form.querySelector<HTMLInputElement>('input[name="件名"]')?.value
-    if (subject) params.append('件名', subject)
-    
-    // お問い合わせ内容
-    const message = form.querySelector<HTMLTextAreaElement>('textarea[name="お問い合わせ内容"]')?.value
-    if (message) params.append('お問い合わせ内容', message)
-    
-    // デバッグ用ログ
-    console.log('Form submission data:', params.toString())
-    
-    try {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: params.toString(),
-      })
-
-      // レスポンスの詳細をログ出力
-      console.log('Response status:', response.status)
-      console.log('Response ok:', response.ok)
-
-      if (response.ok) {
-        // 送信成功後、リダイレクト
-        window.location.href = '/contact/thanks'
-      } else {
-        const errorText = await response.text()
-        console.error('Form submission error:', response.status, errorText)
-        alert(`送信に失敗しました（ステータス: ${response.status}）。しばらく経ってから再度お試しください。`)
-      }
-    } catch (error) {
-      console.error('Form submission error:', error)
-      alert('送信に失敗しました。ネットワーク接続を確認して、再度お試しください。')
-    }
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -134,9 +65,9 @@ export default function ContactPage() {
             <form
               name="contact"
               method="POST"
+              action="/contact/thanks"
               data-netlify="true"
               netlify-honeypot="bot-field"
-              onSubmit={handleSubmit}
               className="space-y-6"
             >
               {/* Netlify Forms用の非表示フィールド */}
