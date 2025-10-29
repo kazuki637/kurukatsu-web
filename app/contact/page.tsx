@@ -1,7 +1,31 @@
+'use client'
+
 import Link from 'next/link'
 import { Mail, Building2, MessageSquare } from 'lucide-react'
+import { FormEvent } from 'react'
 
 export default function ContactPage() {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    
+    const form = e.currentTarget
+    const formData = new FormData(form)
+    
+    // Netlify Formsに送信
+    const response = await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData as any).toString(),
+    })
+
+    if (response.ok) {
+      // 送信成功後、リダイレクト
+      window.location.href = '/contact/thanks'
+    } else {
+      alert('送信に失敗しました。しばらく経ってから再度お試しください。')
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* ヘッダーセクション */}
@@ -64,9 +88,9 @@ export default function ContactPage() {
             <form
               name="contact"
               method="POST"
-              action="/contact/thanks"
               data-netlify="true"
               netlify-honeypot="bot-field"
+              onSubmit={handleSubmit}
               className="space-y-6"
             >
               {/* Netlify Forms用の非表示フィールド */}
