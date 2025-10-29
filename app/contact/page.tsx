@@ -1,63 +1,7 @@
-'use client'
-
 import Link from 'next/link'
 import { Mail, Building2, MessageSquare } from 'lucide-react'
-import { FormEvent } from 'react'
 
 export default function ContactPage() {
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const myForm = event.target as HTMLFormElement
-    const formData = new FormData(myForm)
-
-    // form-nameを確実に含める
-    if (!formData.has('form-name')) {
-      formData.append('form-name', 'contact')
-    }
-
-    // デバッグ用：送信データをログ出力
-    const encodedData = new URLSearchParams(formData as any).toString()
-    console.log('Sending form data to Netlify:', encodedData)
-
-    try {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: encodedData
-      })
-
-      // レスポンスの詳細をログ出力
-      console.log('Response status:', response.status)
-      console.log('Response statusText:', response.statusText)
-      console.log('Response ok:', response.ok)
-
-      const responseText = await response.text()
-      console.log('Response body:', responseText)
-
-      if (response.ok) {
-        // デバッグ用：リダイレクトを一時的にオフ
-        console.log('✅ フォーム送信成功！')
-        console.log('ログを確認してから、手動でリダイレクトしてください')
-        alert('送信成功しました！コンソールログを確認してください。\n確認後、手動で /contact/thanks にアクセスしてください。')
-        
-        // リダイレクト（デバッグ時はコメントアウト）
-        // window.location.href = '/contact/thanks'
-      } else {
-        console.error('Form submission failed:', {
-          status: response.status,
-          statusText: response.statusText,
-          body: responseText
-        })
-        alert(`送信に失敗しました（ステータス: ${response.status}）。しばらく経ってから再度お試しください。`)
-      }
-    } catch (error) {
-      console.error('Form submission error:', error)
-      alert('送信に失敗しました。ネットワーク接続を確認して、再度お試しください。')
-    }
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -121,9 +65,9 @@ export default function ContactPage() {
             <form
               name="contact"
               method="POST"
+              action="/contact/thanks"
               data-netlify="true"
               netlify-honeypot="bot-field"
-              onSubmit={handleSubmit}
               className="space-y-6"
             >
               {/* Netlify Forms用の非表示フィールド */}
