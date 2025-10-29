@@ -1,7 +1,49 @@
+'use client'
+
 import Link from 'next/link'
 import { Mail, Building2, MessageSquare } from 'lucide-react'
+import { FormEvent } from 'react'
 
 export default function ContactPage() {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const form = event.target as HTMLFormElement
+    const formData = new FormData(form)
+
+    // form-nameを確実に含める
+    if (!formData.has('form-name')) {
+      formData.append('form-name', 'contact')
+    }
+
+    // URLSearchParamsに変換
+    const params = new URLSearchParams()
+    formData.forEach((value, key) => {
+      if (value instanceof File) return
+      params.append(key, value.toString())
+    })
+
+    try {
+      // Netlify Functions経由で送信
+      const response = await fetch('/.netlify/functions/handle-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
+      })
+
+      if (response.ok) {
+        window.location.href = '/contact/thanks'
+      } else {
+        const errorData = await response.json()
+        alert(`送信に失敗しました: ${errorData.error || 'エラーが発生しました'}`)
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      alert('送信に失敗しました。ネットワーク接続を確認して、再度お試しください。')
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -65,9 +107,9 @@ export default function ContactPage() {
             <form
               name="contact"
               method="POST"
-              action="/contact/thanks"
               data-netlify="true"
               netlify-honeypot="bot-field"
+              onSubmit={handleSubmit}
               className="space-y-6"
             >
               {/* Netlify Forms用の非表示フィールド */}
