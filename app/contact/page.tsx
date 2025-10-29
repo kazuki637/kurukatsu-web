@@ -11,18 +11,42 @@ export default function ContactPage() {
     const myForm = event.target as HTMLFormElement
     const formData = new FormData(myForm)
 
+    // form-nameを確実に含める
+    if (!formData.has('form-name')) {
+      formData.append('form-name', 'contact')
+    }
+
+    // デバッグ用：送信データをログ出力
+    const encodedData = new URLSearchParams(formData as any).toString()
+    console.log('Sending form data to Netlify:', encodedData)
+
     try {
       const response = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData as any).toString()
+        headers: { 
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: encodedData
       })
+
+      // レスポンスの詳細をログ出力
+      console.log('Response status:', response.status)
+      console.log('Response statusText:', response.statusText)
+      console.log('Response ok:', response.ok)
+
+      const responseText = await response.text()
+      console.log('Response body:', responseText)
 
       if (response.ok) {
         // 送信成功後、カスタムページにリダイレクト
         window.location.href = '/contact/thanks'
       } else {
-        alert('送信に失敗しました。しばらく経ってから再度お試しください。')
+        console.error('Form submission failed:', {
+          status: response.status,
+          statusText: response.statusText,
+          body: responseText
+        })
+        alert(`送信に失敗しました（ステータス: ${response.status}）。しばらく経ってから再度お試しください。`)
       }
     } catch (error) {
       console.error('Form submission error:', error)
