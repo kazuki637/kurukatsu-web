@@ -1,7 +1,49 @@
+'use client'
+
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { FormEvent, useState } from 'react'
 import { Mail, Building2, MessageSquare } from 'lucide-react'
 
 export default function ContactPage() {
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    const form = e.currentTarget
+    const formData = new FormData(form)
+    
+    // Netlify Formsに必要なform-nameフィールドを追加
+    formData.append('form-name', 'contact')
+
+    // FormDataをURLSearchParamsに変換
+    const params = new URLSearchParams()
+    formData.forEach((value, key) => {
+      params.append(key, value.toString())
+    })
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
+      })
+
+      if (response.ok) {
+        router.push('/contact/thanks')
+      } else {
+        alert('送信に失敗しました。しばらく経ってから再度お試しください。')
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      alert('送信に失敗しました。しばらく経ってから再度お試しください。')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
   return (
     <div className="min-h-screen bg-gray-50">
       {/* ヘッダーセクション */}
@@ -65,7 +107,7 @@ export default function ContactPage() {
               name="contact"
               method="POST"
               data-netlify="true"
-              data-netlify-redirect="/contact/thanks"
+              onSubmit={handleSubmit}
               className="space-y-6"
             >
 
@@ -236,9 +278,10 @@ export default function ContactPage() {
               <div className="pt-6 text-center">
                 <button
                   type="submit"
-                  className="bg-primary hover:bg-primary/90 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-200"
+                  disabled={isSubmitting}
+                  className="bg-primary hover:bg-primary/90 disabled:bg-gray-400 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-200"
                 >
-                  送信する
+                  {isSubmitting ? '送信中...' : '送信する'}
                 </button>
                 <p className="text-xs text-gray-500 mt-3">
                   送信後、3営業日以内にご連絡させていただきます
