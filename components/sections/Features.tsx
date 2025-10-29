@@ -12,42 +12,40 @@ const Features = () => {
       id: 'search',
       icon: <Search className="w-6 h-6" />,
       title: '柔軟な検索フィルタ',
-      description: '大学、ジャンル、活動日、レベルなど細かい条件で理想のサークルを検索',
+      description: '大学、ジャンル、活動日、男女比など細かい条件で自分に合ったサークルを検索',
       image: '/placeholder-search.jpg',
       highlights: [
-        '大学・学部別絞り込み',
+        '大学別絞り込み',
         'ジャンル・カテゴリ別検索',
-        '活動日・時間帯指定',
-        'レベル・経験不問フィルタ',
+        '活動頻度・活動曜日指定',
+        '男女比フィルタ',
         'キーワード検索'
       ]
     },
     {
       id: 'communication',
       icon: <MessageSquare className="w-6 h-6" />,
-      title: '掲示板・メッセージ機能',
-      description: 'サークルメンバーや運営者と気軽にコミュニケーションが取れる',
+      title: '連絡網・カレンダー共有機能',
+      description: 'サークルメンバーに対して重要な連絡や活動スケジュールを共有できる',
       image: '/placeholder-chat.jpg',
       highlights: [
-        'リアルタイムメッセージ',
-        'サークル掲示板',
-        '質問・相談コーナー',
-        '写真・動画共有',
-        'グループトーク'
+        '宛先を選択して連絡を送信',
+        '期限を指定して出席確認',
+        'シンプルで見やすいカレンダー',
+        'プッシュ通知で連絡を見逃さない'
       ]
     },
     {
       id: 'management',
       icon: <Calendar className="w-6 h-6" />,
-      title: 'サークル管理機能',
-      description: 'メンバー管理、スケジュール調整、連絡事項の共有まで一括管理',
+      title: 'メンバー管理機能',
+      description: '入会申請の承諾・拒否や強制退会、代表者の引継ぎも簡単',
       image: '/placeholder-management.jpg',
       highlights: [
-        'メンバー情報管理',
-        '活動スケジュール共有',
-        '出欠確認システム',
-        '連絡事項一斉配信',
-        '活動記録・レポート'
+        '入会申請の管理',
+        '見やすいメンバーリスト',
+        '代表者引き継ぎも1タップで',
+        '管理者権限を複数人に付与可能'
       ]
     }
   ]
@@ -82,22 +80,22 @@ const Features = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
-          className="text-center mb-16"
+          className="text-center mb-8 xs:mb-12 sm:mb-16"
         >
           <motion.h2
             variants={itemVariants}
-            className="text-4xl font-bold text-gray-900 mb-4"
+            className="text-2xl xs:text-3xl sm:text-4xl font-bold text-gray-900 mb-3 xs:mb-4"
           >
             充実した
             <span className="text-primary">機能</span>で
             <br />
-            サークル活動をもっと楽しく
+            サークル活動をサポート
           </motion.h2>
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 max-w-3xl mx-auto"
+            className="text-sm xs:text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto"
           >
-            学生とサークル運営者、両方の視点から設計された使いやすい機能
+            サークルにとって必要な機能がこのアプリだけで完結
           </motion.p>
         </motion.div>
 
@@ -107,21 +105,24 @@ const Features = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
-          className="flex flex-wrap justify-center gap-4 mb-12"
+          className="flex flex-col xs:flex-row xs:flex-wrap justify-center gap-2 xs:gap-3 sm:gap-4 mb-8 xs:mb-10 sm:mb-12"
         >
           {features.map((feature, index) => (
             <motion.button
               key={feature.id}
               variants={itemVariants}
               onClick={() => setActiveTab(index)}
-              className={`flex items-center space-x-3 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
+              className={`flex items-center justify-center xs:justify-start space-x-2 xs:space-x-3 
+                         px-4 xs:px-5 sm:px-6 py-3 xs:py-3 sm:py-3 
+                         rounded-lg xs:rounded-xl font-semibold transition-all duration-300
+                         text-sm xs:text-base touch-manipulation min-h-[48px] ${
                 activeTab === index
                   ? 'bg-primary text-white shadow-lg'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300'
               }`}
             >
-              {feature.icon}
-              <span>{feature.title}</span>
+              <div className="w-5 h-5 xs:w-6 xs:h-6">{feature.icon}</div>
+              <span className="whitespace-nowrap">{feature.title}</span>
             </motion.button>
           ))}
         </motion.div>
@@ -132,32 +133,33 @@ const Features = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="grid lg:grid-cols-2 gap-12 items-center"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-6 xs:gap-8 lg:gap-12 items-center"
         >
           {/* 左側：説明 */}
-          <div>
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 bg-primary text-white rounded-xl flex items-center justify-center">
-                {features[activeTab].icon}
+          <div className="order-2 lg:order-1">
+            <div className="flex items-center space-x-3 xs:space-x-4 mb-4 xs:mb-6">
+              <div className="w-10 h-10 xs:w-12 xs:h-12 bg-primary text-white rounded-lg xs:rounded-xl 
+                           flex items-center justify-center">
+                <div className="w-5 h-5 xs:w-6 xs:h-6">{features[activeTab].icon}</div>
               </div>
-              <h3 className="text-3xl font-bold text-gray-900">
+              <h3 className="text-xl xs:text-2xl sm:text-3xl font-bold text-gray-900">
                 {features[activeTab].title}
               </h3>
             </div>
 
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+            <p className="text-sm xs:text-base sm:text-lg lg:text-xl text-gray-600 mb-6 xs:mb-8 leading-relaxed">
               {features[activeTab].description}
             </p>
 
-            <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="space-y-3 xs:space-y-4">
+              <h4 className="text-base xs:text-lg font-semibold text-gray-900 mb-3 xs:mb-4">
                 主な特徴
               </h4>
-              <div className="grid gap-3">
+              <div className="grid gap-2 xs:gap-3">
                 {features[activeTab].highlights.map((highlight, index) => (
                   <div key={index} className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-primary rounded-full"></div>
-                    <span className="text-gray-700">{highlight}</span>
+                    <div className="w-1.5 h-1.5 xs:w-2 xs:h-2 bg-primary rounded-full flex-shrink-0"></div>
+                    <span className="text-sm xs:text-base text-gray-700">{highlight}</span>
                   </div>
                 ))}
               </div>
@@ -165,10 +167,12 @@ const Features = () => {
           </div>
 
           {/* 右側：スクリーンショット */}
-          <div className="relative">
-            <div className="bg-gray-900 rounded-[2rem] p-4 shadow-2xl max-w-sm mx-auto">
-              <div className="bg-gray-100 rounded-[1.5rem] overflow-hidden">
-                <div className="h-96 bg-gradient-to-br from-blue-50 to-blue-100 p-6 relative">
+          <div className="relative order-1 lg:order-2">
+            <div className="bg-gray-900 rounded-[1.5rem] xs:rounded-[2rem] p-2 xs:p-3 sm:p-4 shadow-2xl 
+                         max-w-xs xs:max-w-sm mx-auto">
+              <div className="bg-gray-100 rounded-[1.25rem] xs:rounded-[1.5rem] overflow-hidden">
+                <div className="h-64 xs:h-80 sm:h-96 bg-gradient-to-br from-blue-50 to-blue-100 
+                             p-3 xs:p-4 sm:p-6 relative">
                   {/* 動的コンテンツ（アクティブなタブに応じて変更） */}
                   {activeTab === 0 && (
                     <div className="space-y-4">
@@ -250,8 +254,10 @@ const Features = () => {
             </div>
 
             {/* 装飾要素 */}
-            <div className="absolute -top-4 -right-4 w-8 h-8 bg-secondary rounded-full opacity-20"></div>
-            <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-primary rounded-full opacity-10"></div>
+            <div className="absolute -top-2 xs:-top-4 -right-2 xs:-right-4 w-6 h-6 xs:w-8 xs:h-8 
+                         bg-secondary rounded-full opacity-20"></div>
+            <div className="absolute -bottom-2 xs:-bottom-4 -left-2 xs:-left-4 w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 
+                         bg-primary rounded-full opacity-10"></div>
           </div>
         </motion.div>
       </div>

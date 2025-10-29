@@ -6,10 +6,10 @@ export default function AboutPage() {
         <div className="container-max px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              運営会社について
+              運営者について
             </h1>
             <p className="text-xl text-blue-100">
-              クルカツを運営する私たちについて
+              クルカツを運営する個人事業主について
             </p>
           </div>
         </div>
@@ -19,20 +19,9 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8">
           <div className="prose prose-lg max-w-none">
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">会社概要</h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <p className="text-gray-700 mb-2"><strong>会社名：</strong>クルカツ運営事務局</p>
-                  <p className="text-gray-700 mb-2"><strong>設立：</strong>2023年4月</p>
-                  <p className="text-gray-700 mb-2"><strong>代表：</strong>田中 太郎</p>
-                  <p className="text-gray-700 mb-2"><strong>従業員数：</strong>15名</p>
-                </div>
-                <div>
-                  <p className="text-gray-700 mb-2"><strong>所在地：</strong>東京都渋谷区××× 1-2-3</p>
-                  <p className="text-gray-700 mb-2"><strong>電話：</strong>03-1234-5678</p>
-                  <p className="text-gray-700 mb-2"><strong>メール：</strong>info@kurukatsu.com</p>
-                </div>
-              </div>
+              <p className="text-gray-700 leading-relaxed text-lg mb-6">
+                クルカツは、早稲田大学に在学する学生が運営しているサービスです。
+              </p>
             </section>
 
             <section className="mb-8">
@@ -59,13 +48,10 @@ export default function AboutPage() {
               <div className="bg-gray-50 p-6 rounded-lg">
                 <p className="text-gray-700 mb-4">
                   サービスに関するご質問、ご相談、取材のお申し込みなどは、
-                  お気軽にお問い合わせください。
-                </p>
-                <p className="text-gray-700 mb-2">
-                  <strong>電話：</strong>03-1234-5678（平日 10:00-18:00）
+                  <a href="/contact" className="text-primary hover:underline font-semibold">お問い合わせフォーム</a>よりお気軽にご連絡ください。
                 </p>
                 <p className="text-gray-700">
-                  <strong>メール：</strong>info@kurukatsu.com
+                  対応時間：平日 10:00-18:00（土日祝日を除く）
                 </p>
               </div>
             </section>

@@ -219,30 +219,12 @@ export default function SponsorsPage() {
           </Link>
         </motion.div>
 
-        {/* 検索・フィルタセクション */}
-        <SponsorFilters
-          searchQuery={searchQuery}
-          selectedTargetType={selectedTargetType}
-          selectedGenre={selectedGenre}
-          selectedStatus={selectedStatus}
-          targetTypes={targetTypes}
-          genres={genres}
-          statusOptions={statusOptions}
-          onFilter={(query, targetType, genre, status) => {
-            setSearchQuery(query)
-            setSelectedTargetType(targetType)
-            setSelectedGenre(genre)
-            setSelectedStatus(status)
-            handleFilter(query, targetType, genre, status)
-          }}
-        />
-
         {/* 協賛案件一覧 */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6 sm:gap-8"
         >
           {filteredSponsors.map((sponsor, index) => (
             <motion.div key={sponsor.id} variants={itemVariants}>

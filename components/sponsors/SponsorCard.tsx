@@ -29,18 +29,19 @@ const SponsorCard = ({ sponsor }: SponsorCardProps) => {
 
   return (
     <motion.div
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -2 }}
       transition={{ duration: 0.3 }}
-      className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${
+      className={`bg-white rounded-lg xs:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 
+                   overflow-hidden group touch-manipulation ${
         !isActive ? 'opacity-75' : ''
       }`}
     >
-      <div className="cursor-pointer">
+      <Link href={`/sponsors/${sponsor.id}`} className="block cursor-pointer">
         {/* ヘッダー */}
-        <div className="relative p-6 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="relative p-3 xs:p-4 sm:p-6 bg-gradient-to-br from-gray-50 to-blue-50">
           {/* ステータスバッジ */}
-          <div className="flex items-center justify-between mb-4">
-            <span className={`inline-block text-xs font-semibold px-3 py-1 rounded-full ${
+          <div className="flex items-center justify-between mb-3 xs:mb-4">
+            <span className={`inline-block text-xs font-semibold px-2 xs:px-3 py-1 rounded-full ${
               isActive 
                 ? 'bg-green-100 text-green-800' 
                 : 'bg-gray-100 text-gray-600'
@@ -49,22 +50,25 @@ const SponsorCard = ({ sponsor }: SponsorCardProps) => {
             </span>
             
             {isActive && isDeadlineClose && (
-              <span className="inline-block bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded-full">
+              <span className="inline-block bg-red-100 text-red-800 text-xs font-semibold 
+                           px-2 py-1 rounded-full">
                 締切間近
               </span>
             )}
           </div>
 
           {/* 企業ロゴ */}
-          <div className="flex items-center space-x-3 mb-4">
-            <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
-              <Building2 className="w-6 h-6 text-primary" />
+          <div className="flex items-center space-x-2 xs:space-x-3 mb-3 xs:mb-4">
+            <div className="w-10 h-10 xs:w-12 xs:h-12 bg-primary/20 rounded-lg flex items-center justify-center">
+              <Building2 className="w-5 h-5 xs:w-6 xs:h-6 text-primary" />
             </div>
-            <div>
-              <h4 className="text-sm font-semibold text-gray-900">{sponsor.company}</h4>
-              <div className="flex items-center space-x-2">
-                {sponsor.targetType.map((type, index) => (
-                  <span key={index} className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+            <div className="flex-1 min-w-0">
+              <h4 className="text-xs xs:text-sm font-semibold text-gray-900 truncate">
+                {sponsor.company}
+              </h4>
+              <div className="flex items-center space-x-1 xs:space-x-2 flex-wrap">
+                {sponsor.targetType.slice(0, 2).map((type, index) => (
+                  <span key={index} className="text-xs bg-blue-100 text-blue-700 px-1.5 xs:px-2 py-0.5 xs:py-1 rounded">
                     {type}
                   </span>
                 ))}
@@ -79,23 +83,25 @@ const SponsorCard = ({ sponsor }: SponsorCardProps) => {
         </div>
 
         {/* コンテンツ */}
-        <div className="p-6">
+        <div className="p-3 xs:p-4 sm:p-6">
           {/* タイトル */}
-          <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-200">
+          <h3 className="text-sm xs:text-base sm:text-lg font-bold text-gray-900 mb-2 xs:mb-3 
+                       line-clamp-2 group-hover:text-primary transition-colors duration-200">
             {sponsor.title}
           </h3>
 
           {/* 説明 */}
-          <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
+          <p className="text-gray-600 text-xs xs:text-sm mb-3 xs:mb-4 line-clamp-3 leading-relaxed">
             {sponsor.description}
           </p>
 
           {/* ジャンルタグ */}
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-1 xs:gap-2 mb-3 xs:mb-4">
             {sponsor.genre.slice(0, 3).map((genre, index) => (
               <span
                 key={index}
-                className="inline-block bg-secondary/10 text-secondary text-xs px-2 py-1 rounded-md font-medium"
+                className="inline-block bg-secondary/10 text-secondary text-xs 
+                         px-2 py-0.5 xs:py-1 rounded-md font-medium"
               >
                 {genre}
               </span>
@@ -124,25 +130,28 @@ const SponsorCard = ({ sponsor }: SponsorCardProps) => {
           </div>
 
           {/* メタ情報 */}
-          <div className="flex items-center justify-between text-xs text-gray-500 border-t border-gray-100 pt-4">
+          <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between 
+                       text-xs text-gray-500 border-t border-gray-100 pt-2 xs:pt-3 sm:pt-4 space-y-2 xs:space-y-0">
             <div className="flex items-center space-x-3">
               <div className="flex items-center space-x-1">
-                <Calendar className="w-3 h-3" />
-                <span>
+                <Calendar className="w-3 h-3 flex-shrink-0" />
+                <span className="whitespace-nowrap">
                   {new Date(sponsor.deadline).toLocaleDateString('ja-JP')} 締切
                 </span>
               </div>
             </div>
             
             <div className="flex items-center space-x-1">
-              <Users className="w-3 h-3" />
-              <span>{sponsor.participants}</span>
+              <Users className="w-3 h-3 flex-shrink-0" />
+              <span className="whitespace-nowrap">{sponsor.participants}</span>
             </div>
           </div>
 
           {/* 応募ボタンエリア */}
-          <div className="mt-4 pt-4 border-t border-gray-100">
-            <div className={`w-full text-center py-2 px-4 rounded-lg font-semibold transition-all duration-200 ${
+          <div className="mt-3 xs:mt-4 pt-3 xs:pt-4 border-t border-gray-100">
+            <div className={`w-full text-center py-2 xs:py-3 px-4 rounded-lg font-semibold 
+                          transition-all duration-200 text-sm xs:text-base min-h-[44px] 
+                          flex items-center justify-center touch-manipulation ${
               isActive 
                 ? 'bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white'
                 : 'bg-gray-100 text-gray-500'
@@ -151,7 +160,7 @@ const SponsorCard = ({ sponsor }: SponsorCardProps) => {
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     </motion.div>
   )
 }

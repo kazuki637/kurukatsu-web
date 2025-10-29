@@ -10,50 +10,80 @@
 
 html {
   scroll-behavior: smooth;
+  /* Safe area support for notched devices */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 body {
   font-family: var(--font-inter);
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
 }
 
 @layer base {
+  /* Mobile-first responsive typography */
   h1 {
-    @apply text-4xl font-bold;
+    @apply text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold leading-tight;
   }
   h2 {
-    @apply text-3xl font-semibold;
+    @apply text-xl xs:text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight;
   }
   h3 {
-    @apply text-2xl font-medium;
+    @apply text-lg xs:text-xl sm:text-2xl md:text-3xl font-medium leading-tight;
   }
   h4 {
-    @apply text-xl font-medium;
+    @apply text-base xs:text-lg sm:text-xl md:text-2xl font-medium leading-tight;
+  }
+  
+  /* Base text sizing */
+  p {
+    @apply text-sm xs:text-base leading-relaxed;
   }
 }
 
 @layer components {
+  /* Mobile-optimized buttons with larger touch targets */
   .btn-primary {
-    @apply bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200;
+    @apply bg-primary hover:bg-blue-700 active:bg-blue-800 text-white font-semibold 
+           py-3 px-4 xs:py-4 xs:px-6 sm:py-3 sm:px-6 
+           text-sm xs:text-base 
+           rounded-lg transition-all duration-200
+           min-h-[44px] /* iOS recommendation for touch targets */
+           touch-manipulation; /* Disable double-tap zoom */
   }
   
   .btn-secondary {
-    @apply bg-secondary hover:bg-amber-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200;
+    @apply bg-secondary hover:bg-amber-600 active:bg-amber-700 text-white font-semibold 
+           py-3 px-4 xs:py-4 xs:px-6 sm:py-3 sm:px-6 
+           text-sm xs:text-base 
+           rounded-lg transition-all duration-200
+           min-h-[44px] touch-manipulation;
   }
   
   .btn-outline {
-    @apply border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200;
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-white 
+           active:bg-blue-700 active:border-blue-700 font-semibold 
+           py-3 px-4 xs:py-4 xs:px-6 sm:py-3 sm:px-6 
+           text-sm xs:text-base 
+           rounded-lg transition-all duration-200
+           min-h-[44px] touch-manipulation;
   }
   
+  /* Mobile-first cards */
   .card {
-    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6;
+    @apply bg-white rounded-lg xs:rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 
+           p-4 xs:p-5 sm:p-6;
   }
   
+  /* Mobile-first section padding */
   .section-padding {
-    @apply py-16 px-4 sm:px-6 lg:px-8;
+    @apply py-8 px-4 xs:py-12 xs:px-5 sm:py-16 sm:px-6 lg:px-8;
   }
   
+  /* Responsive container */
   .container-max {
-    @apply max-w-7xl mx-auto;
+    @apply max-w-7xl mx-auto px-4 xs:px-5 sm:px-6 lg:px-8;
   }
 
   .line-clamp-2 {
@@ -77,4 +107,520 @@ body {
 
 .hero-gradient {
   background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+}
+
+/* 記事本文スタイル */
+.article-content {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.article-content > :first-child {
+  margin-top: 0;
+}
+
+/* 見出し */
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5 {
+  line-height: 1.5;
+}
+
+.article-content h1 {
+  font-size: 28px;
+  margin-top: 1.429em;
+  margin-bottom: 0.857em;
+  font-weight: 900;
+}
+
+.article-content h2 {
+  font-size: 24px;
+  line-height: 1.5;
+  margin-top: 2.667em;
+  margin-bottom: 1.667em;
+  padding: 0 0.667em 0.333em 0.667em;
+  border-left: 8px solid #000;
+  border-bottom: 1px solid #000;
+  font-weight: 900;
+}
+
+.article-content h3 {
+  font-size: 20px;
+  margin-top: 1.6em;
+  margin-bottom: 1.2em;
+  padding: 0 0 0.4em;
+  border-bottom: 1px solid #000;
+  font-weight: 900;
+}
+
+.article-content h4 {
+  font-size: 16px;
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+  font-weight: 900;
+}
+
+.article-content h5 {
+  font-size: 14px;
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+  font-weight: 900;
+}
+
+/* 段落 */
+.article-content p {
+  margin-top: 0.5em;
+  margin-bottom: 1.5em;
+}
+
+/* 画像 */
+.article-content img {
+  max-width: 100%;
+  width: auto;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+/* 画像を横並びにするカスタムクラス */
+.article-content .image-row,
+.article-content .images-horizontal {
+  display: flex;
+  gap: 16px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.article-content .image-row img,
+.article-content .images-horizontal img {
+  flex: 1 1 calc(50% - 8px);
+  min-width: 0;
+  margin: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .article-content .image-row,
+  .article-content .images-horizontal {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .article-content .image-row img,
+  .article-content .images-horizontal img {
+    flex: 1 1 100%;
+  }
+}
+
+/* リスト */
+.article-content ul,
+.article-content ol {
+  padding-left: 1.5em;
+  margin-top: 0.5em;
+  margin-bottom: 1.5em;
+}
+
+/* 図表、挿絵 */
+.article-content figure {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.article-content figcaption {
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* テーブル */
+.article-content table {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  border-collapse: collapse;
+  overflow-x: scroll;
+  display: block;
+  padding-bottom: 16px;
+}
+
+.article-content th,
+.article-content td {
+  padding: 8px 16px;
+  border: 1px solid;
+}
+
+.article-content tr:first-child th {
+  color: #fff;
+  background-color: #000;
+}
+
+.article-content th {
+  color: #fff;
+  background-color: #4b4b50;
+  min-width: 200px;
+}
+
+.article-content table p {
+  margin: 0;
+}
+
+/* テキストリンク */
+.article-content a {
+  text-decoration: underline;
+  color: inherit;
+}
+
+/* 引用 */
+.article-content blockquote {
+  padding: 40px 32px;
+  position: relative;
+  background-color: #fafafa;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.article-content blockquote::before,
+.article-content blockquote::after {
+  content: "";
+  display: inline-block;
+  width: 48px;
+  height: 36px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+}
+
+.article-content blockquote::before {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>');
+  top: -8px;
+  left: 16px;
+}
+
+.article-content blockquote::after {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 17h3l2-4V7h-6v6h3zm-8 0h3l2-4V7H5v6h3z"/></svg>');
+  bottom: -8px;
+  right: 16px;
+  transform: scaleX(-1);
+}
+
+.article-content blockquote p {
+  font-size: 0.875em;
+}
+
+.article-content blockquote p + p {
+  margin-top: 1.5em;
+}
+
+/* 区切り線 */
+.article-content hr {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+@media screen and (min-width: 768px) {
+  .article-content {
+    font-size: 16px;
+  }
+
+  .article-content h1,
+  .article-content h2,
+  .article-content h3,
+  .article-content h4 {
+    line-height: 1.5;
+  }
+
+  .article-content h1 {
+    font-size: 32px;
+  }
+
+  .article-content h2 {
+    font-size: 28px;
+    border-left: 16px solid #000;
+    margin-top: 4.286em;
+  }
+
+  .article-content h3 {
+    font-size: 24px;
+    margin-top: 3.333em;
+  }
+
+  .article-content h4 {
+    font-size: 18px;
+  }
+
+  .article-content h5 {
+    font-size: 16px;
+  }
+
+  .article-content figcaption {
+    font-size: 14px;
+  }
+}
+
+/* クルカツボタン */
+.kurukatsu-button {
+  position: relative;
+  overflow: hidden;
+  color: white !important;
+  text-decoration: none !important;
+}
+
+.kurukatsu-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.kurukatsu-button:hover::before {
+  left: 100%;
+}
+
+.kurukatsu-button--external:hover {
+  transform: translateY(-2px);
+}
+
+.kurukatsu-button--internal:hover {
+  transform: translateY(-2px);
+}
+
+/* ボタンアイコン */
+.kurukatsu-button svg {
+  fill: currentColor;
+}
+
+.kurukatsu-button span {
+  color: white !important;
+}
+
+/* 吹き出しパーツ */
+.c-balloon {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.c-balloon__image {
+  width: 64px;
+  flex-shrink: 0;
+}
+
+.c-balloon__image img {
+  width: 100%;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+}
+
+.c-balloon__text {
+  font-size: 12px;
+  white-space: pre-wrap;
+  width: calc(100% - 64px - 24px);
+  max-width: 420px;
+  background-color: #fff;
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+  border-left: none;
+  border-radius: 4px;
+  padding: 16px;
+  position: relative;
+}
+
+/* 左側のボーダーを三角形の位置で途切れさせる（上の線） */
+.c-balloon__text::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 16px;
+  background: #000;
+}
+
+/* 三角形の外側 */
+.c-balloon__text::before {
+  content: "";
+  display: inline-block;
+  clip-path: polygon(0 50%, 100% 100%, 100% 0);
+  position: absolute;
+  top: 16px;
+  left: 0;
+  transform: translateX(-100%);
+  width: 16px;
+  height: 16px;
+  background-color: #000;
+}
+
+/* 三角形の内側 */
+.c-balloon__text::after {
+  content: "";
+  display: inline-block;
+  clip-path: polygon(0 50%, 100% 100%, 100% 0);
+  position: absolute;
+  top: 17px;
+  left: 0;
+  transform: translateX(-100%);
+  width: 14px;
+  height: 14px;
+  background-color: #fff;
+}
+
+/* 左側のボーダー（下の線） */
+.c-balloon__text {
+  box-shadow: 
+    inset 0 -1px 0 0 #000,
+    inset 0 0 0 0 transparent;
+}
+
+.c-balloon__text::before {
+  box-shadow: 0 calc(100% - 32px) 0 0 #000;
+}
+
+/* 画像が右 */
+.c-balloon--right {
+  flex-direction: row-reverse;
+}
+
+.c-balloon--right .c-balloon__text::before,
+.c-balloon--right .c-balloon__text::after {
+  right: 0;
+  left: inherit;
+  transform: translateX(100%) scale(-1, 1);
+}
+
+@media screen and (min-width: 768px) {
+  .c-balloon {
+    gap: 40px;
+  }
+
+  .c-balloon__image {
+    width: 80px;
+  }
+
+  .c-balloon__image img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .c-balloon__text {
+    font-size: 14px;
+    padding: 24px;
+    width: calc(100% - 80px - 40px);
+  }
+}
+
+/* Swiperカルーセル */
+.article-carousel .swiper-button-next,
+.article-carousel .swiper-button-prev {
+  width: 40px;
+  height: 40px;
+  background-color: #000;
+  border-radius: 50%;
+  color: #fff;
+}
+
+.article-carousel .swiper-button-next:after,
+.article-carousel .swiper-button-prev:after {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.article-carousel .swiper-button-next {
+  right: 16px;
+}
+
+.article-carousel .swiper-button-prev {
+  left: 16px;
+}
+
+.article-carousel .swiper-pagination-bullet {
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 1;
+}
+
+.article-carousel .swiper-pagination-bullet-active {
+  background: #000;
+}
+
+  .article-carousel .swiper-pagination {
+    bottom: 16px;
+  }
+
+/* SNSシェア */
+.c-snsShare {
+  background-color: #fff;
+  padding: 32px 24px 40px;
+  margin-top: 40px;
+}
+
+.c-snsShare__heading {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.c-snsShare__headingText {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  padding-right: 40px;
+  padding-left: 40px;
+  position: relative;
+}
+
+.c-snsShare__headingText::before,
+.c-snsShare__headingText::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 32px;
+  background-color: #000;
+  position: absolute;
+  bottom: 0;
+}
+
+.c-snsShare__headingText::before {
+  left: 0;
+  transform: rotate(-20deg);
+}
+
+.c-snsShare__headingText::after {
+  right: 0;
+  transform: rotate(20deg);
+}
+
+.c-snsShare__lead {
+  font-size: 14px;
+  text-align: center;
+}
+
+.c-snsShare__list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 24px 0 0;
+  padding: 0;
+}
+
+.c-snsShare__button {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+}
+
+.c-snsShare__button:hover {
+  transform: scale(1.2);
 }

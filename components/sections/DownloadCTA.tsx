@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Download, Smartphone, ArrowRight, Star, Play } from 'lucide-react'
+import { Download, ArrowRight, Star, Smartphone } from 'lucide-react'
 
 const DownloadCTA = () => {
   const containerVariants = {
@@ -48,11 +48,6 @@ const DownloadCTA = () => {
             variants={itemVariants}
             className="mb-8"
           >
-            <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-              <Star className="w-5 h-5 fill-secondary text-secondary" />
-              <span className="text-sm font-semibold">15,000人以上が利用中</span>
-            </div>
-            
             <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
               今すぐダウンロードして
               <br />
@@ -64,76 +59,6 @@ const DownloadCTA = () => {
               <br />
               理想のサークルとの出会いが、今すぐ手の中に。
             </p>
-          </motion.div>
-
-          {/* ダウンロードボタン */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12"
-          >
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center bg-black hover:bg-gray-800 text-white py-4 px-8 rounded-2xl transition-all duration-300 shadow-2xl min-w-[200px]"
-            >
-              <Download className="w-6 h-6 mr-3" />
-              <div className="text-left">
-                <div className="text-xs opacity-80">Download on the</div>
-                <div className="text-lg font-semibold">App Store</div>
-              </div>
-            </motion.a>
-
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center bg-black hover:bg-gray-800 text-white py-4 px-8 rounded-2xl transition-all duration-300 shadow-2xl min-w-[200px]"
-            >
-              <Smartphone className="w-6 h-6 mr-3" />
-              <div className="text-left">
-                <div className="text-xs opacity-80">GET IT ON</div>
-                <div className="text-lg font-semibold">Google Play</div>
-              </div>
-            </motion.a>
-          </motion.div>
-
-          {/* QRコード風装飾 */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col md:flex-row items-center justify-center gap-8 mb-12"
-          >
-            <div className="flex items-center space-x-4">
-              <div className="w-20 h-20 bg-white rounded-lg p-2 shadow-lg">
-                <div className="w-full h-full bg-gray-900 rounded grid grid-cols-4 gap-1 p-1">
-                  {[...Array(16)].map((_, i) => (
-                    <div
-                      key={i}
-                      className={`rounded-sm ${
-                        Math.random() > 0.5 ? 'bg-white' : 'bg-gray-900'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div className="text-left">
-                <p className="text-sm text-blue-100 mb-1">QRコードで簡単</p>
-                <p className="font-semibold">スマホでスキャン</p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-2 text-blue-100">
-              <span>または</span>
-              <ArrowRight className="w-4 h-4" />
-            </div>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              className="flex items-center space-x-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg px-6 py-3 transition-all duration-300"
-            >
-              <Play className="w-5 h-5" />
-              <span>使い方動画を見る</span>
-            </motion.button>
           </motion.div>
 
           {/* 特徴ポイント */}
@@ -161,9 +86,9 @@ const DownloadCTA = () => {
               <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Star className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">高評価</h3>
+              <h3 className="text-lg font-semibold mb-2">App Store対応</h3>
               <p className="text-blue-100 text-sm">
-                App Store・Google Play両方で4.8★の高評価を獲得
+                iOSアプリからサクッとダウンロード
               </p>
             </motion.div>
 
@@ -189,14 +114,17 @@ const DownloadCTA = () => {
             <p className="text-blue-100 mb-4">
               今すぐ始めて、新しいキャンパスライフをスタートしませんか？
             </p>
-            <motion.button
+            <motion.a
+              href="https://apps.apple.com/jp/app/%E3%82%AF%E3%83%AB%E3%82%AB%E3%83%84/id6751227085"
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-secondary hover:bg-amber-600 text-white font-bold py-4 px-8 rounded-xl shadow-2xl transition-all duration-300"
+              className="inline-flex items-center bg-secondary hover:bg-amber-600 text-white font-bold py-4 px-8 rounded-xl shadow-2xl transition-all duration-300"
             >
               今すぐ無料ダウンロード
-              <ArrowRight className="w-5 h-5 ml-2 inline" />
-            </motion.button>
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </motion.a>
           </motion.div>
         </motion.div>
       </div>

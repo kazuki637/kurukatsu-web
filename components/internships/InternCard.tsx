@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { MapPin, Calendar, DollarSign, Clock, Building2, ArrowRight, Users, Monitor } from 'lucide-react'
 import Link from 'next/link'
 
@@ -48,16 +47,14 @@ const InternCard = ({ internship }: InternCardProps) => {
   }
 
   return (
-    <motion.div
-      whileHover={{ y: -5 }}
-      transition={{ duration: 0.3 }}
-      className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${
+    <div
+      className={`bg-white rounded-lg xs:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group touch-manipulation hover:-translate-y-0.5 ${
         !isActive ? 'opacity-75' : ''
       }`}
     >
-      <div className="cursor-pointer">
+      <Link href={`/internships/${internship.id}`} className="block cursor-pointer">
         {/* ヘッダー */}
-        <div className="relative p-6 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="relative p-3 xs:p-4 sm:p-6 bg-gradient-to-br from-gray-50 to-blue-50">
           {/* ステータスとワークスタイル */}
           <div className="flex items-center justify-between mb-4">
             <span className={`inline-block text-xs font-semibold px-3 py-1 rounded-full ${
@@ -96,14 +93,15 @@ const InternCard = ({ internship }: InternCardProps) => {
         </div>
 
         {/* コンテンツ */}
-        <div className="p-6">
+        <div className="p-3 xs:p-4 sm:p-6">
           {/* タイトル */}
-          <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-200">
+          <h3 className="text-sm xs:text-base sm:text-lg font-bold text-gray-900 mb-2 xs:mb-3 
+                       line-clamp-2 group-hover:text-primary transition-colors duration-200">
             {internship.title}
           </h3>
 
           {/* 説明 */}
-          <p className="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
+          <p className="text-gray-600 text-xs xs:text-sm mb-3 xs:mb-4 line-clamp-2 leading-relaxed">
             {internship.description}
           </p>
 
@@ -189,8 +187,8 @@ const InternCard = ({ internship }: InternCardProps) => {
             </div>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </Link>
+    </div>
   )
 }
 

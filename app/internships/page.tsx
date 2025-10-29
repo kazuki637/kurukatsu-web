@@ -315,7 +315,7 @@ export default function InternshipsPage() {
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6 sm:gap-8"
         >
           {filteredInternships.map((internship, index) => (
             <motion.div key={internship.id} variants={itemVariants}>
