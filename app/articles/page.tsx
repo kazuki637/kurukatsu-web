@@ -14,12 +14,20 @@ export default function ArticlesPage() {
   const [filteredArticles, setFilteredArticles] = useState<MicroCMSArticle[]>([])
   const [categories, setCategories] = useState<string[]>(['全て'])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   // MicroCMSからデータ取得
   useEffect(() => {
     const fetchArticles = async () => {
       try {
+        console.log('Fetching articles...', {
+          serviceDomain: process.env.NEXT_PUBLIC_MICROCMS_SERVICE_DOMAIN,
+          hasApiKey: !!process.env.NEXT_PUBLIC_MICROCMS_API_KEY
+        })
+        
         const data = await getArticles()
+        console.log('Articles data received:', data)
+        
         if (data && data.contents) {
           setArticles(data.contents)
           setFilteredArticles(data.contents)
@@ -30,9 +38,14 @@ export default function ArticlesPage() {
           ).filter(Boolean) as string[]
           
           setCategories(['全て', ...uniqueCategories])
+          setError(null)
+        } else {
+          setError('記事データが取得できませんでした')
+          console.error('No contents in response:', data)
         }
       } catch (error) {
         console.error('Failed to fetch articles:', error)
+        setError(error instanceof Error ? error.message : '記事の取得に失敗しました')
       } finally {
         setLoading(false)
       }
@@ -135,6 +148,16 @@ export default function ArticlesPage() {
                 <div className="text-center py-16">
                   <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
                   <p className="mt-4 text-gray-600">読み込み中...</p>
+                </div>
+              ) : error ? (
+                <div className="text-center py-16">
+                  <p className="text-red-600 mb-4">{error}</p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="btn-primary"
+                  >
+                    再読み込み
+                  </button>
                 </div>
               ) : (
                 <div>

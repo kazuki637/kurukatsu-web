@@ -25,9 +25,16 @@ export default function ArticlePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('Fetching article:', id, {
+          serviceDomain: process.env.NEXT_PUBLIC_MICROCMS_SERVICE_DOMAIN,
+          hasApiKey: !!process.env.NEXT_PUBLIC_MICROCMS_API_KEY
+        })
+        
         const articleData = await getArticle(id)
+        console.log('Article data received:', articleData)
         
         if (!articleData) {
+          console.error('Article not found for ID:', id)
           setNotFound(true)
           return
         }
