@@ -124,7 +124,7 @@ export default function ArticlesPage() {
         <link rel="canonical" href={currentUrl} />
       </Head>
       
-      <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       {/* ページタイトル */}
       <div 
         className="flex items-center justify-center min-h-[240px] py-10 px-6 md:px-20"
@@ -136,7 +136,7 @@ export default function ArticlesPage() {
         }}
       >
         <h1 className="text-3xl md:text-5xl font-black">クルカツ記事</h1>
-      </div>
+        </div>
 
       {/* メインコンテンツ */}
       <div className="py-12 md:py-20">
@@ -144,11 +144,11 @@ export default function ArticlesPage() {
           <div className="grid grid-cols-1 lg:grid-cols-[calc(100%-320px)_280px] gap-12 md:gap-16">
             {/* メインエリア */}
             <main className="w-full">
-              {loading ? (
-                <div className="text-center py-16">
-                  <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-                  <p className="mt-4 text-gray-600">読み込み中...</p>
-                </div>
+        {loading ? (
+          <div className="text-center py-16">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            <p className="mt-4 text-gray-600">読み込み中...</p>
+          </div>
               ) : error ? (
                 <div className="text-center py-16">
                   <p className="text-red-600 mb-4">{error}</p>
@@ -166,35 +166,35 @@ export default function ArticlesPage() {
                     <h2 className="text-2xl md:text-3xl font-black mb-6">{selectedCategory}</h2>
                   )}
 
-                  {/* 記事一覧 */}
-                  <motion.div
-                    initial="hidden"
-                    animate="visible"
-                    variants={containerVariants}
+            {/* 記事一覧 */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
                     className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10"
-                  >
-                    {filteredArticles.map((article) => (
-                      <motion.div key={article.id} variants={itemVariants}>
-                        <ArticleCard article={article} />
-                      </motion.div>
-                    ))}
-                  </motion.div>
+            >
+              {filteredArticles.map((article) => (
+                <motion.div key={article.id} variants={itemVariants}>
+                  <ArticleCard article={article} />
+                </motion.div>
+              ))}
+            </motion.div>
 
                   {/* 記事が見つからない場合 */}
-                  {filteredArticles.length === 0 && (
+            {filteredArticles.length === 0 && (
                     <div className="text-center py-16">
-                      <h3 className="text-xl font-semibold text-gray-600 mb-2">
-                        記事が見つかりませんでした
-                      </h3>
-                      <p className="text-gray-500 mb-6">
+                <h3 className="text-xl font-semibold text-gray-600 mb-2">
+                  記事が見つかりませんでした
+                </h3>
+                <p className="text-gray-500 mb-6">
                         カテゴリを変更してお試しください
-                      </p>
-                      <button
-                        onClick={handleReset}
-                        className="btn-primary"
-                      >
-                        全ての記事を表示
-                      </button>
+                </p>
+                <button
+                  onClick={handleReset}
+                  className="btn-primary"
+                >
+                  全ての記事を表示
+                </button>
                     </div>
                   )}
                 </div>
@@ -212,7 +212,7 @@ export default function ArticlesPage() {
           </div>
         </div>
       </div>
-      </div>
+    </div>
     </>
   )
 }
