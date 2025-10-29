@@ -50,25 +50,26 @@ export default function ContactPage() {
     setSubmitError('')
 
     try {
-      // Netlify Functionに送信
-      const response = await fetch('/.netlify/functions/contact-form', {
+      // Netlify Formsに送信するFormDataを作成
+      const formData = new URLSearchParams()
+      formData.append('form-name', 'contact')
+      formData.append('会社名', data.companyName)
+      formData.append('お名前', data.name)
+      formData.append('メールアドレス', data.email)
+      formData.append('電話番号', data.phone)
+      formData.append('お問い合わせ種別', inquiryTypes.find(t => t.value === data.inquiryType)?.label || data.inquiryType)
+      formData.append('件名', data.subject)
+      formData.append('お問い合わせ内容', data.message)
+
+      // Netlify Formsに送信
+      const response = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          companyName: data.companyName,
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          inquiryType: inquiryTypes.find(t => t.value === data.inquiryType)?.label || data.inquiryType,
-          subject: data.subject,
-          message: data.message,
-        }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
       })
 
-      const result = await response.json()
-
       if (!response.ok) {
-        throw new Error(result.error || '送信に失敗しました。しばらく経ってから再度お試しください。')
+        throw new Error('送信に失敗しました。しばらく経ってから再度お試しください。')
       }
 
       setSubmitSuccess(true)
@@ -194,6 +195,24 @@ export default function ContactPage() {
             </div>
           </motion.div>
 
+          {/* Netlify Forms検出用の静的フォーム（非表示・ビルド時に検出される） */}
+          <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+            <input type="hidden" name="form-name" value="contact" />
+            <input type="text" name="会社名" />
+            <input type="text" name="お名前" />
+            <input type="email" name="メールアドレス" />
+            <input type="tel" name="電話番号" />
+            <input type="radio" name="お問い合わせ種別" />
+            <input type="text" name="件名" />
+            <textarea name="お問い合わせ内容"></textarea>
+            <div style={{ display: 'none' }}>
+              <label>
+                このフィールドは空のままでお願いします:
+                <input name="bot-field" />
+              </label>
+            </div>
+          </form>
+
           {/* フォームセクション */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -202,9 +221,21 @@ export default function ContactPage() {
             className="bg-white rounded-xl shadow-lg p-8"
           >
             <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
               onSubmit={handleSubmit(onSubmit)}
               className="space-y-6"
             >
+              {/* Netlify Forms用の非表示フィールド */}
+              <input type="hidden" name="form-name" value="contact" />
+              <div style={{ display: 'none' }}>
+                <label>
+                  このフィールドは空のままでお願いします:
+                  <input name="bot-field" />
+                </label>
+              </div>
               {/* 会社情報 */}
               <div className="border-b border-gray-200 pb-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">会社情報</h3>
@@ -257,7 +288,6 @@ export default function ContactPage() {
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${
                         errors.name ? 'border-red-500' : 'border-gray-300'
                       }`}
-                      placeholder="山田 太郎"
                     />
                     {errors.name && (
                       <p className="mt-1 text-sm text-red-600 flex items-center">
@@ -287,7 +317,6 @@ export default function ContactPage() {
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${
                         errors.phone ? 'border-red-500' : 'border-gray-300'
                       }`}
-                      placeholder="03-1234-5678"
                     />
                     {errors.phone && (
                       <p className="mt-1 text-sm text-red-600 flex items-center">
@@ -318,7 +347,6 @@ export default function ContactPage() {
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${
                       errors.email ? 'border-red-500' : 'border-gray-300'
                     }`}
-                    placeholder="example@company.co.jp"
                   />
                   {errors.email && (
                     <p className="mt-1 text-sm text-red-600 flex items-center">
@@ -380,12 +408,6 @@ export default function ContactPage() {
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${
                       errors.subject ? 'border-red-500' : 'border-gray-300'
                     }`}
-                    placeholder={
-                      selectedInquiryType === 'sponsor' ? '協賛案件掲載について' :
-                      selectedInquiryType === 'internship' ? 'インターン求人掲載について' :
-                      selectedInquiryType === 'article' ? '記事タイアップについて' :
-                      'お問い合わせの件名を入力してください'
-                    }
                   />
                   {errors.subject && (
                     <p className="mt-1 text-sm text-red-600 flex items-center">
@@ -415,7 +437,6 @@ export default function ContactPage() {
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 resize-none ${
                       errors.message ? 'border-red-500' : 'border-gray-300'
                     }`}
-                    placeholder="具体的なご要望やご質問がございましたら、詳しくお聞かせください。&#10;&#10;例：&#10;・ご希望の協賛内容&#10;・対象となるサークルの条件&#10;・予算規模&#10;・実施時期&#10;・その他ご質問など"
                   />
                   {errors.message && (
                     <p className="mt-1 text-sm text-red-600 flex items-center">
