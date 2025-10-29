@@ -65,8 +65,8 @@ export default function ContactPage() {
               name="contact"
               method="POST"
               action="/thanks.html"
-              data-netlify="true"
               className="space-y-6"
+              {...({ 'data-netlify': 'true', netlify: true } as any)}
             >
 
               <dl className="space-y-6">
