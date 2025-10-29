@@ -4,7 +4,9 @@
 [build]
   # Next.js用のビルドコマンド
   command = "npm run build"
-  # @netlify/plugin-nextjsが自動的に出力ディレクトリを設定します
+  # @netlify/plugin-nextjsが自動的に処理しますが、エラー回避のため一時的に設定
+  # プラグインが実際の出力ディレクトリを使用します
+  publish = ".next"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

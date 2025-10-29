@@ -5,36 +5,28 @@ import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { 
   Mail, 
-  Phone, 
   Building2, 
-  User, 
   MessageSquare, 
   Send, 
   CheckCircle,
-  AlertCircle,
-  ExternalLink,
-  Shield
+  AlertCircle
 } from 'lucide-react'
 import Link from 'next/link'
 
 interface ContactFormData {
   companyName: string
-  department?: string
   name: string
   email: string
   phone: string
   inquiryType: string
   subject: string
   message: string
-  privacyConsent: boolean
 }
 
 const inquiryTypes = [
   { value: 'sponsor', label: '協賛案件掲載希望' },
   { value: 'internship', label: 'インターン求人掲載希望' },
   { value: 'article', label: '記事取材・タイアップ希望' },
-  { value: 'partnership', label: '事業提携・協業について' },
-  { value: 'advertising', label: '広告・宣伝について' },
   { value: 'other', label: 'その他のお問い合わせ' }
 ]
 
@@ -58,18 +50,25 @@ export default function ContactPage() {
     setSubmitError('')
 
     try {
-      // 実際の実装では、APIエンドポイントに送信
-      // const response = await fetch('/api/contact', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(data)
-      // })
+      // Netlify Formsに送信するFormDataを作成
+      const formData = new FormData()
+      formData.append('form-name', 'contact')
+      formData.append('会社名', data.companyName)
+      formData.append('お名前', data.name)
+      formData.append('メールアドレス', data.email)
+      formData.append('電話番号', data.phone)
+      formData.append('お問い合わせ種別', inquiryTypes.find(t => t.value === data.inquiryType)?.label || data.inquiryType)
+      formData.append('件名', data.subject)
+      formData.append('お問い合わせ内容', data.message)
 
-      // デモ用の遅延
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      // Netlify Formsに送信
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString()
+      })
 
-      // デモ用のランダムエラー（10%の確率）
-      if (Math.random() < 0.1) {
+      if (!response.ok) {
         throw new Error('送信に失敗しました。しばらく経ってから再度お試しください。')
       }
 
@@ -203,18 +202,33 @@ export default function ContactPage() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="bg-white rounded-xl shadow-lg p-8"
           >
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-6"
+            >
+              {/* Netlify Forms用の非表示フィールド */}
+              <input type="hidden" name="form-name" value="contact" />
+              <div style={{ display: 'none' }}>
+                <label>
+                  このフィールドは空のままでお願いします:
+                  <input name="bot-field" />
+                </label>
+              </div>
               {/* 会社情報 */}
               <div className="border-b border-gray-200 pb-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">会社情報</h3>
                 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      会社名 <span className="text-red-500">*</span>
-                    </label>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    会社名 <span className="text-red-500">*</span>
+                  </label>
                     <input
                       type="text"
+                      name="会社名"
                       {...register('companyName', { 
                         required: '会社名は必須です' 
                       })}
@@ -223,25 +237,12 @@ export default function ContactPage() {
                       }`}
                       placeholder="株式会社○○○○"
                     />
-                    {errors.companyName && (
-                      <p className="mt-1 text-sm text-red-600 flex items-center">
-                        <AlertCircle className="w-4 h-4 mr-1" />
-                        {errors.companyName.message}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      部署名
-                    </label>
-                    <input
-                      type="text"
-                      {...register('department')}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
-                      placeholder="営業部、人事部など"
-                    />
-                  </div>
+                  {errors.companyName && (
+                    <p className="mt-1 text-sm text-red-600 flex items-center">
+                      <AlertCircle className="w-4 h-4 mr-1" />
+                      {errors.companyName.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -256,6 +257,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       type="text"
+                      name="お名前"
                       {...register('name', { 
                         required: 'お名前は必須です' 
                       })}
@@ -278,6 +280,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       type="tel"
+                      name="電話番号"
                       {...register('phone', { 
                         required: '電話番号は必須です',
                         pattern: {
@@ -305,6 +308,7 @@ export default function ContactPage() {
                   </label>
                   <input
                     type="email"
+                    name="メールアドレス"
                     {...register('email', { 
                       required: 'メールアドレスは必須です',
                       pattern: {
@@ -339,6 +343,7 @@ export default function ContactPage() {
                       <label key={type.value} className="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors duration-200">
                         <input
                           type="radio"
+                          name="お問い合わせ種別"
                           value={type.value}
                           {...register('inquiryType', { 
                             required: 'お問い合わせ種別を選択してください' 
@@ -363,6 +368,7 @@ export default function ContactPage() {
                   </label>
                   <input
                     type="text"
+                    name="件名"
                     {...register('subject', { 
                       required: '件名は必須です' 
                     })}
@@ -390,6 +396,7 @@ export default function ContactPage() {
                   </label>
                   <textarea
                     rows={6}
+                    name="お問い合わせ内容"
                     {...register('message', { 
                       required: 'お問い合わせ内容は必須です',
                       minLength: {
@@ -408,46 +415,6 @@ export default function ContactPage() {
                       {errors.message.message}
                     </p>
                   )}
-                </div>
-              </div>
-
-              {/* プライバシーポリシー同意 */}
-              <div className="pb-6">
-                <label className="flex items-start space-x-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    {...register('privacyConsent', { 
-                      required: 'プライバシーポリシーへの同意が必要です' 
-                    })}
-                    className={`w-5 h-5 text-primary border-2 rounded focus:ring-primary mt-0.5 ${
-                      errors.privacyConsent ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                  />
-                  <div className="flex-1 text-sm">
-                    <span className="text-gray-700">
-                      <Link href="/privacy" className="text-primary hover:underline" target="_blank">
-                        プライバシーポリシー
-                        <ExternalLink className="w-3 h-3 inline ml-1" />
-                      </Link>
-                      に同意します <span className="text-red-500">*</span>
-                    </span>
-                    {errors.privacyConsent && (
-                      <p className="mt-1 text-red-600 flex items-center">
-                        <AlertCircle className="w-4 h-4 mr-1" />
-                        {errors.privacyConsent.message}
-                      </p>
-                    )}
-                  </div>
-                </label>
-
-                <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <div className="flex items-start space-x-3">
-                    <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
-                    <div className="text-sm text-blue-800">
-                      <p className="font-semibold mb-1">個人情報の取り扱いについて</p>
-                      <p>ご提供いただいた個人情報は、お問い合わせへの回答およびサービスのご案内にのみ使用し、適切に管理いたします。</p>
-                    </div>
-                  </div>
                 </div>
               </div>
 
@@ -491,29 +458,6 @@ export default function ContactPage() {
                 </p>
               </div>
             </form>
-          </motion.div>
-
-          {/* 追加情報 */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-8 bg-gradient-to-r from-primary to-blue-600 text-white rounded-xl p-8 text-center"
-          >
-            <h3 className="text-xl font-bold mb-4">お急ぎの場合は</h3>
-            <p className="mb-6 opacity-90">
-              緊急のご相談や詳細な打ち合わせをご希望の場合は、<br />
-              直接お電話でのお問い合わせも承っております。
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6">
-              <div className="flex items-center space-x-2">
-                <Phone className="w-5 h-5" />
-                <span className="font-semibold">03-1234-5678</span>
-              </div>
-              <div className="text-sm opacity-80">
-                平日 10:00-18:00
-              </div>
-            </div>
           </motion.div>
         </div>
       </div>
