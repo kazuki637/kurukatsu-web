@@ -30,23 +30,42 @@ export default function ContactPage() {
       })
 
       // レスポンスの詳細をログ出力
-      console.log('Response status:', response.status)
-      console.log('Response statusText:', response.statusText)
-      console.log('Response ok:', response.ok)
-
       const responseText = await response.text()
-      console.log('Response body:', responseText)
+      
+      const debugInfo = {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok,
+        body: responseText.substring(0, 500) // 最初の500文字だけ
+      }
+      
+      console.log('=== Netlify Forms Response ===')
+      console.log('Status:', debugInfo.status)
+      console.log('Status Text:', debugInfo.statusText)
+      console.log('OK:', debugInfo.ok)
+      console.log('Response Body:', debugInfo.body)
+      console.log('=== End Response ===')
 
       if (response.ok) {
-        // 送信成功後、カスタムページにリダイレクト
-        window.location.href = '/contact/thanks'
+        // デバッグ用：アラートで確認（本番では削除可能）
+        if (process.env.NODE_ENV === 'development') {
+          alert(`送信成功！\nステータス: ${response.status}\nレスポンス: ${debugInfo.body.substring(0, 100)}...`)
+        }
+        
+        // リダイレクトを少し遅延させてログを確認できる時間を確保
+        setTimeout(() => {
+          window.location.href = '/contact/thanks'
+        }, 1000)
       } else {
-        console.error('Form submission failed:', {
+        const errorInfo = {
           status: response.status,
           statusText: response.statusText,
           body: responseText
-        })
-        alert(`送信に失敗しました（ステータス: ${response.status}）。しばらく経ってから再度お試しください。`)
+        }
+        console.error('=== Form Submission Failed ===')
+        console.error('Error Details:', errorInfo)
+        console.error('=== End Error ===')
+        alert(`送信に失敗しました\nステータス: ${response.status}\n詳細: ${responseText.substring(0, 200)}`)
       }
     } catch (error) {
       console.error('Form submission error:', error)
