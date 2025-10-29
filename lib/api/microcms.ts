@@ -1,7 +1,14 @@
 import { createClient } from 'microcms-js-sdk'
 
+// serviceDomainから.microcms.ioを除去（SDKが自動的に追加するため）
+const getServiceDomain = () => {
+  const domain = process.env.NEXT_PUBLIC_MICROCMS_SERVICE_DOMAIN || 'kurukatsu-web'
+  // .microcms.ioが含まれている場合は除去
+  return domain.replace(/\.microcms\.io$/, '')
+}
+
 export const client = createClient({
-  serviceDomain: process.env.NEXT_PUBLIC_MICROCMS_SERVICE_DOMAIN || 'kurukatsu-web',
+  serviceDomain: getServiceDomain(),
   apiKey: process.env.NEXT_PUBLIC_MICROCMS_API_KEY || 'tY6jGkAFf7n9n8Tuf5erekEjHW6b5c8lBQBg',
 })
 
