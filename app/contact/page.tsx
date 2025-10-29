@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Mail, Building2, MessageSquare } from 'lucide-react'
 
 export default function ContactPage() {
   return (
@@ -19,6 +20,45 @@ export default function ContactPage() {
 
       <div className="container-max px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-4xl mx-auto">
+          {/* 説明セクション */}
+          <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+            <div className="flex items-center space-x-3 mb-6">
+              <Building2 className="w-8 h-8 text-primary" />
+              <h2 className="text-2xl font-bold text-gray-900">法人様向けお問い合わせフォーム</h2>
+            </div>
+            
+            <p className="text-gray-700 leading-relaxed mb-6">
+              クルカツでは、大学生とのマッチング機会を提供する様々なサービスをご用意しています。
+              協賛案件の掲載、インターン求人の掲載、記事でのタイアップなど、お気軽にご相談ください。
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center p-4 bg-blue-50 rounded-lg">
+                <div className="w-12 h-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <Mail className="w-6 h-6" />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-2">協賛案件掲載</h3>
+                <p className="text-sm text-gray-600">サークル活動をサポートする協賛案件の掲載</p>
+              </div>
+              
+              <div className="text-center p-4 bg-green-50 rounded-lg">
+                <div className="w-12 h-12 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <Building2 className="w-6 h-6" />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-2">インターン求人</h3>
+                <p className="text-sm text-gray-600">優秀な大学生インターンの採用支援</p>
+              </div>
+              
+              <div className="text-center p-4 bg-secondary/10 rounded-lg">
+                <div className="w-12 h-12 bg-secondary/20 text-secondary rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <MessageSquare className="w-6 h-6" />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-2">記事タイアップ</h3>
+                <p className="text-sm text-gray-600">記事での取材・タイアップ企画</p>
+              </div>
+            </div>
+          </div>
+
           {/* フォームセクション */}
           <div className="bg-white rounded-xl shadow-lg p-8">
             <form

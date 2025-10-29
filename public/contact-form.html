@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Form</title>
+</head>
+<body>
+  <!-- Netlify Forms検出用の静的フォーム -->
+  <form name="contact" method="POST" netlify netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="contact" />
+    <input type="text" name="会社名" />
+    <input type="text" name="お名前" />
+    <input type="tel" name="電話番号" />
+    <input type="email" name="メールアドレス" />
+    <input type="radio" name="お問い合わせ種別" value="協賛案件掲載希望" />
+    <input type="radio" name="お問い合わせ種別" value="インターン求人掲載希望" />
+    <input type="radio" name="お問い合わせ種別" value="記事取材・タイアップ希望" />
+    <input type="radio" name="お問い合わせ種別" value="その他のお問い合わせ" />
+    <input type="text" name="件名" />
+    <textarea name="お問い合わせ内容"></textarea>
+    <label>
+      このフィールドは空のままでお願いします:
+      <input name="bot-field" />
+    </label>
+  </form>
+</body>
+</html>
+
