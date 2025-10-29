@@ -229,9 +229,12 @@ export default function ContactPage() {
                     <input
                       type="text"
                       name="会社名"
-                      {...register('companyName', { 
-                        required: '会社名は必須です' 
-                      })}
+                      {...(() => {
+                        const { name, ...rest } = register('companyName', { 
+                          required: '会社名は必須です' 
+                        })
+                        return rest
+                      })()}
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${
                         errors.companyName ? 'border-red-500' : 'border-gray-300'
                       }`}
@@ -258,9 +261,12 @@ export default function ContactPage() {
                     <input
                       type="text"
                       name="お名前"
-                      {...register('name', { 
-                        required: 'お名前は必須です' 
-                      })}
+                      {...(() => {
+                        const { name, ...rest } = register('name', { 
+                          required: 'お名前は必須です' 
+                        })
+                        return rest
+                      })()}
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${
                         errors.name ? 'border-red-500' : 'border-gray-300'
                       }`}
@@ -281,13 +287,16 @@ export default function ContactPage() {
                     <input
                       type="tel"
                       name="電話番号"
-                      {...register('phone', { 
-                        required: '電話番号は必須です',
-                        pattern: {
-                          value: /^[0-9-+().\s]+$/,
-                          message: '正しい電話番号を入力してください'
-                        }
-                      })}
+                      {...(() => {
+                        const { name, ...rest } = register('phone', { 
+                          required: '電話番号は必須です',
+                          pattern: {
+                            value: /^[0-9-+().\s]+$/,
+                            message: '正しい電話番号を入力してください'
+                          }
+                        })
+                        return rest
+                      })()}
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${
                         errors.phone ? 'border-red-500' : 'border-gray-300'
                       }`}
@@ -309,13 +318,16 @@ export default function ContactPage() {
                   <input
                     type="email"
                     name="メールアドレス"
-                    {...register('email', { 
-                      required: 'メールアドレスは必須です',
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: '正しいメールアドレスを入力してください'
-                      }
-                    })}
+                    {...(() => {
+                      const { name, ...rest } = register('email', { 
+                        required: 'メールアドレスは必須です',
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: '正しいメールアドレスを入力してください'
+                        }
+                      })
+                      return rest
+                    })()}
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${
                       errors.email ? 'border-red-500' : 'border-gray-300'
                     }`}
@@ -345,9 +357,12 @@ export default function ContactPage() {
                           type="radio"
                           name="お問い合わせ種別"
                           value={type.value}
-                          {...register('inquiryType', { 
-                            required: 'お問い合わせ種別を選択してください' 
-                          })}
+                          {...(() => {
+                            const { name, ...rest } = register('inquiryType', { 
+                              required: 'お問い合わせ種別を選択してください' 
+                            })
+                            return rest
+                          })()}
                           className="w-4 h-4 text-primary border-gray-300 focus:ring-primary"
                         />
                         <span className="ml-3 text-sm font-medium text-gray-900">{type.label}</span>
@@ -369,9 +384,12 @@ export default function ContactPage() {
                   <input
                     type="text"
                     name="件名"
-                    {...register('subject', { 
-                      required: '件名は必須です' 
-                    })}
+                    {...(() => {
+                      const { name, ...rest } = register('subject', { 
+                        required: '件名は必須です' 
+                      })
+                      return rest
+                    })()}
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ${
                       errors.subject ? 'border-red-500' : 'border-gray-300'
                     }`}
@@ -397,13 +415,16 @@ export default function ContactPage() {
                   <textarea
                     rows={6}
                     name="お問い合わせ内容"
-                    {...register('message', { 
-                      required: 'お問い合わせ内容は必須です',
-                      minLength: {
-                        value: 10,
-                        message: '10文字以上で入力してください'
-                      }
-                    })}
+                    {...(() => {
+                      const { name, ...rest } = register('message', { 
+                        required: 'お問い合わせ内容は必須です',
+                        minLength: {
+                          value: 10,
+                          message: '10文字以上で入力してください'
+                        }
+                      })
+                      return rest
+                    })()}
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 resize-none ${
                       errors.message ? 'border-red-500' : 'border-gray-300'
                     }`}
